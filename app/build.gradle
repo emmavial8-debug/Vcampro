@@ -47,6 +47,8 @@ android {
     }
 
     buildFeatures {
+        // IMPORTANT : forcer la génération de BuildConfig pour que KSP / YukiHookAPI puisse identifier le package
+        buildConfig true
         compose true
     }
 
@@ -98,4 +100,10 @@ dependencies {
 
 def static releaseDay() {
     return new Date().format("yyyyMMdd", TimeZone.getTimeZone("UTC"))
+}
+
+// Optionnel : arguments passés au processeur KSP — défensif si YukiHookAPI a besoin d'un arg explicite
+ksp {
+    arg("modulePackageName", "io.twinkle.unreal")
+    arg("modulePackage", "io.twinkle.unreal")
 }
