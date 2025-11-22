@@ -1,19 +1,37 @@
 workflows:
-  android-debug:
-    name: Android Debug Build
+  android-build:
+    name: Android Debug & Release Build
     max_build_duration: 60
     environment:
       vars:
-        JAVA_HOME: "/usr/lib/jvm/adoptopenjdk-17-hotspot-amd64"
+        # JAVA_HOME laissé vide, Codemagic gère le JDK choisi dans UI
+      cache:
+        paths:
+          - ~/.gradle/caches
+          - ~/.gradle/wrapper/
+          - app/build/generated/ksp
     scripts:
+      # Fix gradlew permissions
       - name: Fix gradlew permission
         script: chmod +x ./gradlew
+
+      # Installer SDK 34 et build-tools 34
       - name: Install Android SDK 34 build tools
         script: |
+          yes | sdkmanager --licenses
           sdkmanager "platforms;android-34" "build-tools;34.0.0"
+
+      # Clean et refresh dependencies pour KSP
       - name: Clean project and refresh dependencies
         script: ./gradlew clean --no-daemon --refresh-dependencies
+
+      # Build Debug APK
       - name: Assemble debug APK
-        script: ./gradlew assembleDebug --no-daemon
+        script: ./gradlew assembleDebug --no-daemon --stacktrace
+
+      # Build Release APK
+      - name: Assemble release APK
+        script: ./gradlew assembleRelease --no-daemon --stacktrace
+
     artifacts:
       - app/build/outputs/**/*.apk
