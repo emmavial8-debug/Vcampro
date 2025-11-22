@@ -2,14 +2,6 @@ workflows:
   android-build:
     name: Android Debug & Release Build
     max_build_duration: 60
-    environment:
-      vars:
-        # JAVA_HOME laissé vide, Codemagic gère le JDK choisi dans UI
-      cache:
-        paths:
-          - ~/.gradle/caches
-          - ~/.gradle/wrapper/
-          - app/build/generated/ksp
     scripts:
       # Fix gradlew permissions
       - name: Fix gradlew permission
@@ -35,3 +27,9 @@ workflows:
 
     artifacts:
       - app/build/outputs/**/*.apk
+
+caches:
+  paths:
+    - ~/.gradle/caches
+    - ~/.gradle/wrapper/
+    - app/build/generated/ksp
