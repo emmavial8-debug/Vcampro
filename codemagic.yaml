@@ -1,8 +1,10 @@
 workflows:
-  android-build:
-    name: Build Android APK
+  android-debug:
+    name: Android Debug Build
     max_build_duration: 60
     scripts:
+      - name: Fix gradlew permission
+        script: chmod +x ./gradlew
       - name: Clean project
         script: ./gradlew clean
       - name: Build debug APK
