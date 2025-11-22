@@ -3,25 +3,17 @@ workflows:
     name: Android Debug & Release Build
     max_build_duration: 60
     scripts:
-      # Fix gradlew permissions
       - name: Fix gradlew permission
         script: chmod +x ./gradlew
 
-      # Installer SDK 34 et build-tools 34
-      - name: Install Android SDK 34 build tools
-        script: |
-          yes | sdkmanager --licenses
-          sdkmanager "platforms;android-34" "build-tools;34.0.0"
+      # On supprime l'installation SDK via script, Codemagic gère SDK/Build Tools via UI
 
-      # Clean et refresh dependencies pour KSP
       - name: Clean project and refresh dependencies
         script: ./gradlew clean --no-daemon --refresh-dependencies
 
-      # Build Debug APK
       - name: Assemble debug APK
         script: ./gradlew assembleDebug --no-daemon --stacktrace
 
-      # Build Release APK
       - name: Assemble release APK
         script: ./gradlew assembleRelease --no-daemon --stacktrace
 
