@@ -1,0 +1,13 @@
+workflows:
+  android-build:
+    name: Build Android APK
+    max_build_duration: 60
+    environment:
+      sdk: "android"
+    scripts:
+      - name: Clean project
+        script: ./gradlew clean
+      - name: Build debug APK
+        script: ./gradlew assembleDebug
+    artifacts:
+      - app/build/outputs/apk/debug/*.apk
