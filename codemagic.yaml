@@ -2,12 +2,19 @@ workflows:
   android-debug:
     name: Android Debug Build
     max_build_duration: 60
+    environment:
+      vars:
+        JAVA_HOME: "/usr/lib/jvm/java-17-openjdk"  # Force JDK 17
+      android:
+        compile_sdk: 34
+        target_sdk: 34
+        build_tools: "34.0.0"  # Assure la version correcte des build tools
     scripts:
       - name: Fix gradlew permission
         script: chmod +x ./gradlew
-      - name: Clean project
-        script: ./gradlew clean
-      - name: Build debug APK
-        script: ./gradlew assembleDebug
+      - name: Clean project and refresh dependencies
+        script: ./gradlew clean --no-daemon --refresh-dependencies
+      - name: Assemble debug APK
+        script: ./gradlew assembleDebug --no-daemon
     artifacts:
       - app/build/outputs/**/*.apk
