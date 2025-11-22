@@ -1,54 +1,52 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'com.google.devtools.ksp' version '1.9.23-1.0.20'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.23'
 }
 
 android {
-    compileSdk 34
+    namespace "com.vcampro"
+    compileSdk 29   // Compatible Huawei Mate 20 Lite
 
     defaultConfig {
-        applicationId "io.twinkle.unreal"
-        minSdk 26
-        targetSdk 34
-        versionCode 20240505
-        versionName "1.0.0"
+        applicationId "com.vcampro"
+        minSdk 21
+        targetSdk 29   // Crucial pour Huawei
+        versionCode 1
+        versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-    }
-
-    //noinspection ConfigurationAvoidance
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            output.versionCodeOverride = releaseDay().toInteger() //重新加入新的versionCode
+        ndk {
+            abiFilters "arm64-v8a", "armeabi-v7a"   // Support CPU Huawei
         }
     }
 
     buildTypes {
+        debug {
+            debuggable true
+            minifyEnabled false
+            shrinkResources false
+        }
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources false
+            signingConfig signingConfigs.debug
         }
     }
+
+    packagingOptions {
+        jniLibs.useLegacyPackaging = true
+    }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion '1.5.13'
-    }
-    buildFeatures {
-        buildConfig = true
-        compose = true
-    }
-    namespace 'io.twinkle.unreal'
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = "11"
     }
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.23"
     // 基础依赖
     implementation 'com.highcapable.yukihookapi:api:1.2.0'
     // 作为 Xposed 模块使用务必添加，其它情况可选
