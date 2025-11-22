@@ -4,26 +4,16 @@ workflows:
     max_build_duration: 60
     environment:
       vars:
-        JAVA_HOME: "/usr/lib/jvm/java-17-openjdk"  # JDK 17 requis pour Kotlin 1.9 / KSP
-      cache:
-        # Cache Gradle wrapper et dépendances
-        paths:
-          - ~/.gradle/caches
-          - ~/.gradle/wrapper/
-          - app/build/generated/ksp  # Cache fichiers générés KSP
+        JAVA_HOME: "/usr/lib/jvm/java-17-openjdk"  # Force JDK 17
     scripts:
       - name: Fix gradlew permission
         script: chmod +x ./gradlew
-
       - name: Install Android SDK 34 build tools
         script: |
-          yes | sdkmanager "platforms;android-34" "build-tools;34.0.0"
-
+          sdkmanager "platforms;android-34" "build-tools;34.0.0"
       - name: Clean project and refresh dependencies
         script: ./gradlew clean --no-daemon --refresh-dependencies
-
       - name: Assemble debug APK
         script: ./gradlew assembleDebug --no-daemon
-
     artifacts:
       - app/build/outputs/**/*.apk
