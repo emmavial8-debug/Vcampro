@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace "io.twinkle.unreal.activity"
+    namespace "io.twinkle.unreal"
     compileSdk 34
 
     defaultConfig {
-        applicationId "io.twinkle.unreal.activity"
+        applicationId "io.twinkle.unreal"
         minSdk 21
         targetSdk 34
         versionCode 1
