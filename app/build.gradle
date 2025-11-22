@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace "com.vcampro"
-    compileSdk 33   // Mis à jour pour compatibilité Java 17 et Kotlin 1.9
+    compileSdk 34   // Mis à jour pour compatibilité Java 17 et Kotlin 1.9
 
     defaultConfig {
         applicationId "com.vcampro"
         minSdk 21
-        targetSdk 33   // Mis à jour pour correspondre au compileSdk
+        targetSdk 34   // Mis à jour pour correspondre au compileSdk
         versionCode 1
         versionName "1.0"
 
