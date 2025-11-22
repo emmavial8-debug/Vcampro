@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'com.google.devtools.ksp' version '1.9.23-1.0.20'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.9.23'
 }
 
 android {
@@ -44,6 +46,7 @@ android {
         jvmTarget = "11"
     }
 }
+
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.23"
